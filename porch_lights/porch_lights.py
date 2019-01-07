@@ -1,13 +1,22 @@
 import math, opc, time, random
+from flask import Flask, render_template
+from threading import Thread, Event
 
+#set up fadecandy client
 client = opc.Client('localhost:7890')
 
+#set up pattern thread
+thread = Thread()
+kill_pattern = Event()
+
+#set configs
 num_pixels = 540
 num_rows = 27
 num_cols = 20
 x_spacing = 16
 y_spacing = 3.3
 
+#general color array 
 color_array = [0 for i in range(0,512)]
 [color_array.append(i-512) for i in range(512,768)]
 [color_array.append(255) for i in range(768,1280)]
@@ -50,3 +59,35 @@ while True:
 	client.put_pixels(string)
 	time.sleep(.25)
 	increment = increment + 10
+
+@app.route("/")
+def main():
+	templateData = {
+		'settings' : settings
+		}
+	return render_template('main.html', **templateData)
+
+@app.route("/pattern/<action>")
+def patternToggle(action):
+	global thread
+	global kill_pattern
+	if action == 'wiggleFade':
+		settings['run_pattern']=True
+		if not thread.isAlive():
+			kill_pattern.clear()
+			print "Starting Thread"
+			thread = PatternThread('wiggleFade')
+			thread.start()
+
+	if action == 'stop':
+		print "killing Thread"
+		settings['run_pattern']=False
+		kill_pattern.set()
+
+	templateData = {
+	'settings' : settings
+	}					
+	return render_template('main.html', **templateData)
+
+if __name__ == "__main__":
+   app.run(host='0.0.0.0', port=80, debug=True)
