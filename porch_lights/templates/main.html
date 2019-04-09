@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<title> Fritter </title>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/flask.ico') }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+	<nav class="navbar navbar-expand-md fixed-top navbar-top">
+		<!--<a href="#" class="navbar-left"><img src="doughnut_simple_pink.svg"></a>-->
+		<a class="navbar-brand" href="#">
+			<img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}" class="d-inline-block align-top" alt="">
+		{{sys_name}}</a>
+	</nav>
+	<div class="container">
+		<!--<div class="jumbotron">
+			<h1>Welcome to our laboratory!</h1>
+			<p class="lead">Site perpetually under construction</br></p>
+			<img src="{{url_for('static', filename='images/demolisher.png')}}" class="rounded mx-auto d-block" alt="construction equipment" style="width:200px;height:200px;">
+
+		</div> End jumbotron -->
+		<div class ="row"><!-- Power Button Row-->
+			<div class="col-1"></div><!-- Spacer -->
+			<div class="col-10">
+				{% if settings['power'] == False %}
+					<a class="btn btn-success btn-lg btn-block" href="/power/on" role="button"><span class='fa fa-power-off'></span> Turn Power On</a>
+				{% else %}
+					<a class="btn btn-danger btn-lg btn-block {% if settings['run_pattern'] == True %}disabled{% endif %}" href="/power/off" role="button"><span class='fa fa-power-off'> Turn Power off</a>
+				{% endif %}
+			</div>
+			<div class="col-1"></div><!-- Spacer -->
+		</div><!-- End Power Button Row -->
+
+	</div> <!-- End Container -->
+		<nav class="navbar fixed-bottom navbar-light">
+				<div class="centered-footer">powered by sprijnkle <img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}"</div>
+		</nav>
+
+
+	<!-- Load javascript -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="static/js/main.js"></script>	
+</body>
+
+</html>
