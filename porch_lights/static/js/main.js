@@ -1,17 +1,6 @@
 $(document).ready(function() {
-    namespace = '/test';
-    // Connect to the Socket.IO server.
-    // The connection URL has the following format:
-    //     http[s]://<domain>:<port>[/<namespace>]
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
-    // Event handler for new connections.
-    // The callback function is invoked when a connection with the
-    // server is established.
-    socket.on('connect', function() {
-        socket.emit('my_event', {data: 'I\'m connected!'});
-    });
 
-    socket.on('my_response', function(msg) {
+/*    socket.on('my_response', function(msg) {
         $('#log').append('<br>' + $('<div>').text('Received #' + msg.count + ': ' + msg.data).html());
         $(".progress-bar").css("width", msg.data + "%");
         console.log( msg.data + "%");
@@ -59,14 +48,30 @@ $(document).ready(function() {
     $( "#startme" ).click(function() {
       socket.emit('startme');
     });
-   
+*/
+   $( ".color-picker" ).click(function() {
+      $('#color-option').val(this.id);
+      console.log("red clicked");
+    });
 
+   $( ".pattern-picker" ).click(function() {
+      $('#pattern-option').val(this.id);
+      console.log("red clicked");
+    });
+
+    $( "#startme" ).click(function() {
+        $color = $('#color-option').val();
+        $pattern = $('#pattern-option').val();
+        $url = "/start/"+$color + "/" + $pattern
+      console.log($color);
+      console.log($pattern);
+      window.location.href = $url
+    });
 
 });            
 
-    function closeSocket(){
-        namespace = '/test';
-        var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
-        socket.emit('disconnect');
-                return false;
-    }
+/*$(document).on( "click", ".color-picker", function(ev) {
+
+      $('#color-option').val(this.id);
+      console.log("red clicked");
+});*/

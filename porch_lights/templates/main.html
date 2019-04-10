@@ -16,27 +16,66 @@
 		{{sys_name}}</a>
 	</nav>
 	<div class="container">
-		<!--<div class="jumbotron">
-			<h1>Welcome to our laboratory!</h1>
-			<p class="lead">Site perpetually under construction</br></p>
-			<img src="{{url_for('static', filename='images/demolisher.png')}}" class="rounded mx-auto d-block" alt="construction equipment" style="width:200px;height:200px;">
-
-		</div> End jumbotron -->
 		<div class ="row"><!-- Power Button Row-->
 			<div class="col-1"></div><!-- Spacer -->
 			<div class="col-10">
 				{% if settings['power'] == False %}
 					<a class="btn btn-success btn-lg btn-block" href="/power/on" role="button"><span class='fa fa-power-off'></span> Turn Power On</a>
 				{% else %}
-					<a class="btn btn-danger btn-lg btn-block {% if settings['run_pattern'] == True %}disabled{% endif %}" href="/power/off" role="button"><span class='fa fa-power-off'> Turn Power off</a>
+					<a class="btn btn-danger btn-lg btn-block" href="/power/off" role="button"><span class='fa fa-power-off'></span> Turn Power off</a>
 				{% endif %}
 			</div>
 			<div class="col-1"></div><!-- Spacer -->
 		</div><!-- End Power Button Row -->
 
+		<div class ="row"> <!-- Color Row-->
+			<div class="col-1"></div>
+			<div class="input-group col-10">
+				<div class="input-group-prepend">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Color   </button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item color-picker" id="Red">Red</a>
+						<a class="dropdown-item color-picker" id="Blue">Blue</a>
+						<a class="dropdown-item color-picker" id="Green">Green</a>
+					</div>
+				</div>
+			  <input type="text" class="form-control" id="color-option" readonly>
+			</div>
+			<div class="col-1"></div>
+		</div><!-- End Color Row-->
+
+		<div class ="row"> <!-- Shadow Row-->
+			<div class="col-1"></div>
+			<div class="input-group col-10">
+				<div class="input-group-prepend">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Pattern</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item pattern-picker" id="Red">Red <img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}"></a>
+						<a class="dropdown-item pattern-picker" id="Blue">Blue</a>
+						<a class="dropdown-item pattern-picker" id="Green">Green</a>
+					</div>
+				</div>
+			  <input type="text" class="form-control" id="pattern-option" readonly>
+			</div>
+			<div class="col-1"></div>
+		</div><!-- End Shadow Row-->
+
+		<div class ="row"><!-- Start/Stop Row-->
+			<div class="col-1"></div><!-- Spacer -->
+			<div class="col-10">
+				{% if settings['power'] == False %}
+					<button id="startme" type="button" class="btn btn-danger btn-block"><span class='fa fa-power-off'></span> Start Robot</button>
+				{% else %}
+					<button id="startme" type="button" class="btn btn-danger btn-block"><span class='fa fa-power-off'></span> Start Robot</button>
+				{% endif %}
+			</div>
+			<div class="col-1"></div><!-- Spacer -->
+		</div><!-- End Start/Stop Row -->
+
 	</div> <!-- End Container -->
+
 		<nav class="navbar fixed-bottom navbar-light">
-				<div class="centered-footer">powered by sprijnkle <img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}"</div>
+				<div class="centered-footer">powered by sprijnkle <img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}"></div>
 		</nav>
 
 
@@ -44,7 +83,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="static/js/main.js"></script>	
+    <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>	
 </body>
 
 </html>

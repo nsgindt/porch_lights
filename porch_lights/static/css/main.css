@@ -25,3 +25,7 @@ body {
 .centered-footer {
 	margin: 0 auto;
 }
+
+.row {
+    padding-bottom: .5rem;	
+}
