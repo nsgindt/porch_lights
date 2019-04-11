@@ -15,14 +15,17 @@
 			<img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}" class="d-inline-block align-top" alt="">
 		{{sys_name}}</a>
 	</nav>
+
 	<div class="container">
 		<div class ="row"><!-- Power Button Row-->
 			<div class="col-1"></div><!-- Spacer -->
 			<div class="col-10">
 				{% if settings['power'] == False %}
-					<a class="btn btn-success btn-block" href="/power/on" role="button"><span class='fa fa-power-off'></span> Turn Power On</a>
+					<a class="btn btn-success btn-block {% if settings['pattern_running']==True %}disabled{% endif %}" href="/power/on" role="button">
+						<span class='fa fa-power-off'></span> Turn Power On</a>
 				{% else %}
-					<a class="btn btn-danger btn-block" href="/power/off" role="button"><span class='fa fa-power-off'></span> Turn Power off</a>
+					<a class="btn btn-danger btn-block {% if settings['pattern_running']==True %}disabled{% endif %}" href="/power/off" role="button">
+						<span class='fa fa-power-off'></span> Turn Power off</a>
 				{% endif %}
 			</div>
 			<div class="col-1"></div><!-- Spacer -->
@@ -32,7 +35,9 @@
 			<div class="col-1"></div>
 			<div class="input-group col-10">
 				<div class="input-group-prepend">
-					<button class="btn btn-secondary dropdown-toggle " type="button" data-toggle="dropdown" {% if settings['pattern_running']==True %} disabled = "disabled" {% endif %}>Color   </button>
+					<button class="btn btn-secondary dropdown-toggle " type="button" data-toggle="dropdown" 
+					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
+					>Color   </button>
 					<div class="dropdown-menu">
 						<a class="dropdown-item color-picker" id="Red">Red</a>
 						<a class="dropdown-item color-picker" id="Blue">Blue</a>
@@ -48,11 +53,16 @@
 			<div class="col-1"></div>
 			<div class="input-group col-10">
 				<div class="input-group-prepend">
-					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Pattern</button>
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
+					>Pattern</button>
 					<div class="dropdown-menu">
-						<a class="dropdown-item pattern-picker" id="Red">Red <img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}"></a>
-						<a class="dropdown-item pattern-picker" id="Blue">Blue</a>
-						<a class="dropdown-item pattern-picker" id="Green">Green</a>
+						<a class="dropdown-item pattern-picker" id="Mirror-Wave"><img src="{{url_for('static', filename='images/mirror_wave.svg')}}">Mirror-Wave</a>
+						<a class="dropdown-item pattern-picker" id="Sync-Wave"><img src="{{url_for('static', filename='images/sync_wave.svg')}}">Sync-Wave
+						</a>
+						<a class="dropdown-item pattern-picker" id="Criss-Cross"><img src="{{url_for('static', filename='images/cross.svg')}}">Criss-Cross</a>
+						<a class="dropdown-item pattern-picker" id="Random-Roll"><img src="{{url_for('static', filename='images/random-roll.svg')}}">Random-Roll</a>
+						<a class="dropdown-item pattern-picker" id="Wave-Cave"><img src="{{url_for('static', filename='images/wave-cave.svg')}}">Wave-Cave</a>
 					</div>
 				</div>
 			  <input type="text" class="form-control" id="pattern-option" value="{{settings['pattern']}}"readonly>
@@ -63,21 +73,28 @@
 		<div class ="row"><!-- Start/Stop Row-->
 			<div class="col-1"></div><!-- Spacer -->
 			<div class="col-10">
-				{% if settings['power'] == False %}
-					<button id="startme" type="button" class="btn btn-info btn-block"><span class='fa fa-power-off'></span> Start Program</button>
+				{% if settings['pattern_running'] == False %}
+					<button id="startme" type="button" class="btn btn-info btn-block"
+					{% if settings['power']==False %} disabled = "disabled" {% endif %}
+					><span class='fa fa-power-off'></span> Start Program</button>
 				{% else %}
-					<button id="stopme" type="button" class="btn btn-secondary btn-block"><span class='fa fa-power-off'></span> Stop Program </button>
+					<button id="stopme" type="button" class="btn btn-secondary btn-block"
+					{% if settings['power']==False %} disabled = "disabled" {% endif %}
+					><span class='fa fa-power-off'></span> Stop Program </button>
 				{% endif %}
 			</div>
 			<div class="col-1"></div><!-- Spacer -->
 		</div><!-- End Start/Stop Row -->
+		<div class = "row">
+			program_running : {{settings['pattern_running']}} </br>
+			power: {{settings['power']}} </br>
+		</div>
 
 	</div> <!-- End Container -->
 
 		<nav class="navbar fixed-bottom navbar-light">
 				<div class="centered-footer">powered by sprijnkle <img src="{{url_for('static', filename='images/doughnut_simple_small.svg')}}"></div>
 		</nav>
-
 
 	<!-- Load javascript -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

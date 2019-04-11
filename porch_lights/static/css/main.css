@@ -29,3 +29,7 @@ body {
 .row {
     padding-bottom: .5rem;	
 }
+
+.pattern-picker img {
+	padding-right:1rem;
+}
