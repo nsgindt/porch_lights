@@ -4,3 +4,4 @@ num_cols = 20
 x_spacing = 16
 y_spacing = 3.3
 fps = 50
+sys_name = 'fritter'

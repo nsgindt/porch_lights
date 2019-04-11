@@ -10,8 +10,9 @@ app = Flask(__name__)
 
 settings = {
 	'power' : False,
-	'color' : 'rainbow',
-	'shadow': 'none'
+	'color' : 'none',
+	'pattern': 'none',
+	'pattern_running': False
 }
 
 @app.route("/")
@@ -41,11 +42,24 @@ def power(action):
 
 @app.route("/start/<color>/<pattern>")
 def start(color,pattern):
+	settings['color']=color
+	settings['pattern']=pattern
+	settings['pattern_running']=True
 	templateData = {
 	'sys_name': sys_name,
 	'settings' : settings
 	}
 	return render_template('main.html', **templateData)
+
+@app.route("/stop")
+def stop():
+	settings['pattern_running']=False
+	templateData = {
+	'sys_name': sys_name,
+	'settings' : settings
+	}
+	return render_template('main.html', **templateData)
+
 	
 
 if __name__ == "__main__":
