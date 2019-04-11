@@ -63,8 +63,11 @@ $(document).ready(function() {
         $color = $('#color-option').val();
         $pattern = $('#pattern-option').val();
         $url = "/start/"+$color + "/" + $pattern
-      console.log($color);
-      console.log($pattern);
+      window.location.href = $url
+    });
+
+    $( "#stopme" ).click(function() {
+        $url = "/stop"
       window.location.href = $url
     });
 
