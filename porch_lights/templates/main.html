@@ -39,7 +39,7 @@
 					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
 					>Color   </button>
 					<div class="dropdown-menu">
-						<a class="dropdown-item color-picker" id="Red">Red</a>
+						<a class="dropdown-item color-picker" id="Rainbow">Rainbow</a>
 						<a class="dropdown-item color-picker" id="Blue">Blue</a>
 						<a class="dropdown-item color-picker" id="Green">Green</a>
 					</div>
@@ -88,6 +88,8 @@
 		<div class = "row">
 			program_running : {{settings['pattern_running']}} </br>
 			power: {{settings['power']}} </br>
+			color: {{settings['color']}} </br>
+			pattern: {{settings['pattern']}}
 		</div>
 
 	</div> <!-- End Container -->
