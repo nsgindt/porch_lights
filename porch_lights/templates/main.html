@@ -40,15 +40,82 @@
 					>Color   </button>
 					<div class="dropdown-menu">
 						<a class="dropdown-item color-picker" id="Rainbow">Rainbow</a>
-						<a class="dropdown-item color-picker" id="Blue">Blue</a>
-						<a class="dropdown-item color-picker" id="Green">Green</a>
+						<a class="dropdown-item color-picker" id="Solid-Fade">Solid-Fade</a>
+						<a class="dropdown-item color-picker" id="One-Color">One-Color</a>
+						<a class="dropdown-item color-picker" id="Two-Color">Two-Color</a>
+						<a class="dropdown-item color-picker" id="Three-Color">Three-Color</a>
 					</div>
 				</div>
 			  <input type="text" class="form-control" id="color-option" value="{{settings['color']}}" readonly>
 			</div>
 			<div class="col-1"></div>
 		</div><!-- End Color Row-->
-
+		<div class = "row {% if settings['hide_color_one']==True %}d-none{% endif %}" id="color-one"><!-- Start color-one Row--> 
+			<div class="col-2"></div>
+			<div class="input-group input-group-sm col-9">
+				<div class="input-group-prepend">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
+					>Color 1</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item color-one-picker" id="White">White</a>
+						<a class="dropdown-item color-one-picker" id="Red">Red</a>
+						<a class="dropdown-item color-one-picker" id="Orange">Orange</a>
+						<a class="dropdown-item color-one-picker" id="Yellow">Yellow</a>
+						<a class="dropdown-item color-one-picker" id="Green">Green</a>
+						<a class="dropdown-item color-one-picker" id="Teal">Teal</a>
+						<a class="dropdown-item color-one-picker" id="Blue">Blue</a>
+						<a class="dropdown-item color-one-picker" id="Pink">Pink</a>
+					</div>
+				</div>
+				<input type="text" class="form-control" id="color-one-option" value="{{settings['color_one']}}" readonly>
+			</div>
+			<div class="col-1"></div>
+    	</div><!-- End color-one Row-->
+		<div class = "row {% if settings['hide_color_two']==True %}d-none{% endif %}" id="color-two">
+			<div class="col-2"></div>
+			<div class="input-group input-group-sm col-9">
+				<div class="input-group-prepend">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
+					>Color 2</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item color-two-picker" id="White">White</a>
+						<a class="dropdown-item color-two-picker" id="Red">Red</a>
+						<a class="dropdown-item color-two-picker" id="Orange">Orange</a>
+						<a class="dropdown-item color-two-picker" id="Yellow">Yellow</a>
+						<a class="dropdown-item color-two-picker" id="Green">Green</a>
+						<a class="dropdown-item color-two-picker" id="Teal">Teal</a>
+						<a class="dropdown-item color-two-picker" id="Blue">Blue</a>
+						<a class="dropdown-item color-two-picker" id="Pink">Pink</a>
+					</div>
+				</div>
+				<input type="text" class="form-control" id="color-two-option" value="{{settings['color_two']}}"readonly>
+			</div>
+			<div class="col-1"></div>
+    	</div>
+		<div class = "row {% if settings['hide_color_three']==True %}d-none{% endif %}" id="color-three">
+			<div class="col-2"></div>
+			<div class="input-group input-group-sm col-9">
+				<div class="input-group-prepend">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
+					>Color 3</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item color-three-picker" id="White">White</a>
+						<a class="dropdown-item color-three-picker" id="Red">Red</a>
+						<a class="dropdown-item color-three-picker" id="Orange">Orange</a>
+						<a class="dropdown-item color-three-picker" id="Yellow">Yellow</a>
+						<a class="dropdown-item color-three-picker" id="Green">Green</a>
+						<a class="dropdown-item color-three-picker" id="Teal">Teal</a>
+						<a class="dropdown-item color-three-picker" id="Blue">Blue</a>
+						<a class="dropdown-item color-three-picker" id="Pink">Pink</a>
+					</div>
+				</div>
+				<input type="text" class="form-control" id="color-three-option" value="{{settings['color_three']}}"readonly>
+			</div>
+			<div class="col-1"></div>
+    	</div>
 		<div class ="row"> <!-- Shadow Row-->
 			<div class="col-1"></div>
 			<div class="input-group col-10">
@@ -57,6 +124,7 @@
 					{% if settings['pattern_running']==True or settings['power']==False %} disabled = "disabled" {% endif %}
 					>Pattern</button>
 					<div class="dropdown-menu">
+						<a class="dropdown-item pattern-picker" id="None"><img src="{{url_for('static', filename='images/none.svg')}}">None</a>
 						<a class="dropdown-item pattern-picker" id="Mirror-Wave"><img src="{{url_for('static', filename='images/mirror_wave.svg')}}">Mirror-Wave</a>
 						<a class="dropdown-item pattern-picker" id="Sync-Wave"><img src="{{url_for('static', filename='images/sync_wave.svg')}}">Sync-Wave
 						</a>
@@ -65,7 +133,7 @@
 						<a class="dropdown-item pattern-picker" id="Wave-Cave"><img src="{{url_for('static', filename='images/wave-cave.svg')}}">Wave-Cave</a>
 					</div>
 				</div>
-			  <input type="text" class="form-control" id="pattern-option" value="{{settings['pattern']}}"readonly>
+				<input type="text" class="form-control" id="pattern-option" value="{{settings['pattern']}}"readonly>
 			</div>
 			<div class="col-1"></div>
 		</div><!-- End Shadow Row-->
@@ -85,13 +153,13 @@
 			</div>
 			<div class="col-1"></div><!-- Spacer -->
 		</div><!-- End Start/Stop Row -->
-		<div class = "row">
-			program_running : {{settings['pattern_running']}} </br>
-			power: {{settings['power']}} </br>
-			color: {{settings['color']}} </br>
-			pattern: {{settings['pattern']}}
-		</div>
 
+
+    	<div class = "row">
+			<div class="col-1"></div>
+
+			<div class="col-1"></div>
+		</div>
 	</div> <!-- End Container -->
 
 		<nav class="navbar fixed-bottom navbar-light">
@@ -99,10 +167,11 @@
 		</nav>
 
 	<!-- Load javascript -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>	
+    <script type="text/javascript" src="{{url_for('static', filename='js/piklor.js')}}"></script>
 </body>
 
 </html>
