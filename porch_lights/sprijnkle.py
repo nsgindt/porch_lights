@@ -10,9 +10,15 @@ app = Flask(__name__)
 
 settings = {
 	'power' : False,
-	'color' : 'none',
+	'color' : 'Rainbow',
 	'pattern': 'none',
-	'pattern_running': False
+	'pattern_running': False,
+	'color_one': 'White',
+	'color_two': 'White',
+	'color_three': 'White',
+	'hide_color_one': True,
+	'hide_color_two': True,
+	"hide_color_three": True,
 }
 
 #set up pattern thread
@@ -33,6 +39,17 @@ fps = config.fps
 #calculated configs
 frame_delay = 1/fps
 num_pixels = num_rows * num_cols
+
+color_list = {
+	'White':(255,255,255),
+	'Red':(255,0,0),
+	'Orange':(255,180,0),
+	'Yellow':(255,255,0),
+	'Green':(0,255,0),
+	'Teal':(0,255,255),
+	'Blue':(0,0,255),
+	'Pink':(255,0,255)
+}
 
 rainbow_array = [0 for i in range(0,512)]
 [rainbow_array.append(i-512) for i in range(512,768)]
@@ -98,7 +115,7 @@ class PatternThread(Thread):
 					string[mapping_array[x][y]] = (rVal, bVal, gVal)
 			client.put_pixels(string)
 			client.put_pixels(string)
-			time.sleep(frame_delay)	
+			time.sleep(3*frame_delay)	
 			shadow_count = shadow_count+1
 			color_count = color_count+1
 
@@ -136,8 +153,14 @@ def get_shadow(pattern, increment):
 def get_color(color, x, y, increment):
 	if color == 'Rainbow':
 		return getRainbowColor(x,y,increment)
-
-
+	if color == 'Solid-Fade':
+		return getSolidFade(increment)
+	if color == 'One-Color':
+		return one_color(x,y)
+	if color == 'Two-Color':
+		return two_color(x,y)
+	if color == 'Three-Color':
+		return three_color(x,y)
 
 def getX(i):
 	if i == 0:
@@ -241,6 +264,26 @@ def no_shadow(increment):
 	shadow = [[1 for y in range(num_rows)] for x in range(num_cols)]
 	return(shadow)
 
+def one_color(x,y):
+	return get_color_rgb(settings['color_one'])
+
+def two_color(x,y):
+	if x <= 9:
+		return get_color_rgb(settings['color_one'])
+	else:
+		return get_color_rgb(settings['color_two'])
+
+def three_color(x,y):
+	if x <= 6:
+		return get_color_rgb(settings['color_one'])
+	elif x > 6 and x <= 12:
+		return get_color_rgb(settings['color_two'])	
+	else:
+		return get_color_rgb(settings['color_three'])	
+
+def get_color_rgb(color):
+	return [color_list[color][0],color_list[color][1],color_list[color][2]]
+
 mapping_array = [[int(getLightNumber(x,y)) for y in range(num_rows)] for x in range(num_cols)]
 distance_array = [[getDistance(x,y) for y in range(num_rows)] for x in range(num_cols)]
 offset_array = [[int(getOffset(y)) for y in distance_array[x]] for x in range(len(distance_array))]
@@ -282,14 +325,16 @@ def power(action):
 	}
 	return render_template('main.html', **templateData)
 
-@app.route("/start/<color>/<pattern>")
-def start(color,pattern):
+@app.route("/start/Rainbow/<pattern>")
+def start_rainbow(pattern):
 	global thread
 	global kill_pattern
-	settings['color']=color
+	settings['color']='Rainbow'
 	settings['pattern']=pattern
-	
 	settings['pattern_running']=True
+	settings['hide_color_one']=True
+	settings['hide_color_two']=True
+	settings['hide_color_three']=True
 	if not thread.isAlive():
 		kill_pattern.clear()
 		thread = PatternThread(pattern,color)
@@ -300,6 +345,97 @@ def start(color,pattern):
 	'settings' : settings
 	}
 	return render_template('main.html', **templateData)
+
+@app.route("/start/Solid-Fade/<pattern>")
+def start_solid_fade(pattern):
+	global thread
+	global kill_pattern
+	settings['color']='Solid-Fade'
+	settings['pattern']=pattern
+	settings['pattern_running']=True
+	settings['hide_color_one']=True
+	settings['hide_color_two']=True
+	settings['hide_color_three']=True
+	if not thread.isAlive():
+		kill_pattern.clear()
+		thread = PatternThread(pattern,color)
+		thread.start()
+
+	templateData = {
+	'sys_name': sys_name,
+	'settings' : settings
+	}
+	return render_template('main.html', **templateData)
+
+@app.route("/start/One-Color/<color1>/<pattern>")
+def start_one_color(color1,pattern):
+	global thread
+	global kill_pattern
+	settings['color']='One-Color'
+	settings['color1']=color1
+	settings['pattern']=pattern
+	settings['pattern_running']=True
+	settings['hide_color_one']=False
+	settings['hide_color_two']=True
+	settings['hide_color_three']=True
+	if not thread.isAlive():
+		kill_pattern.clear()
+		thread = PatternThread(pattern,color)
+		thread.start()
+
+	templateData = {
+	'sys_name': sys_name,
+	'settings' : settings
+	}
+	return render_template('main.html', **templateData)
+
+@app.route("/start/Two-Color/<color1>/<color2>/<pattern>")
+def start_two_color(color1,color2,pattern):
+	global thread
+	global kill_pattern
+	settings['color']='Two-Color'
+	settings['color_one']=color1
+	settings['color_two']=color2
+	settings['pattern']=pattern
+	settings['pattern_running']=True
+	settings['hide_color_one']=False
+	settings['hide_color_two']=False
+	settings['hide_color_three']=True
+	if not thread.isAlive():
+		kill_pattern.clear()
+		thread = PatternThread(pattern,color)
+		thread.start()
+
+	templateData = {
+	'sys_name': sys_name,
+	'settings' : settings
+	}
+	return render_template('main.html', **templateData)
+
+@app.route("/start/Three-Color/<color1>/<color2>/<color3>/<pattern>")
+def start_three_color(color1,color2,color3,pattern):
+	global thread
+	global kill_pattern
+	settings['color']='Three-Color'
+	settings['color_one']=color1
+	settings['color_two']=color2
+	settings['color_three']=color3
+	settings['pattern']=pattern
+	settings['pattern_running']=True
+	settings['hide_color_one']=False
+	settings['hide_color_two']=False
+	settings['hide_color_three']=False
+	if not thread.isAlive():
+		kill_pattern.clear()
+		thread = PatternThread(pattern,color)
+		thread.start()
+
+	templateData = {
+	'sys_name': sys_name,
+	'settings' : settings
+	}
+	return render_template('main.html', **templateData)
+
 
 @app.route("/stop")
 def stop():
