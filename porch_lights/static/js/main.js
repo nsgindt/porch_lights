@@ -74,7 +74,6 @@ $(document).ready(function() {
       $color2 = $('#color-two-option').val();
       $color3 = $('#color-three-option').val();
 
-      
       if ($color == "Rainbow" ){
         $url = "/start/"+$color + "/" + $pattern;
       } else if ($color== "Solid-Fade"){
